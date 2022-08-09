@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/pokeListFragment">
+
+    <fragment
+        tools:layout="@layout/fragment_poke_details"
+        android:id="@+id/pokeDetailsFragment"
+        android:name="com.lasha.pokemoninnowisetest.ui.pokeDetails.PokeDetailsFragment"
+        android:label="PokeDetailsFragment" >
+        <action
+            android:id="@+id/action_pokeDetailsFragment_to_pokeListFragment"
+            app:destination="@id/pokeListFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_poke_list"
+        android:id="@+id/pokeListFragment"
+        android:name="com.lasha.pokemoninnowisetest.ui.pokeList.PokeListFragment"
+        android:label="PokeListFragment" >
+        <action
+            android:id="@+id/action_pokeListFragment_to_pokeDetailsFragment"
+            app:destination="@id/pokeDetailsFragment" />
+    </fragment>
+</navigation>
