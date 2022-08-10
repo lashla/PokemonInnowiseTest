@@ -1,7 +1,7 @@
 package com.lasha.pokemoninnowisetest.data.remote
 
 import com.lasha.pokemoninnowisetest.data.entities.NamedApiResourceList
-import com.lasha.pokemoninnowisetest.data.entities.Pokemon
+import com.lasha.pokemoninnowisetest.data.entities.PokemonDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,5 +16,5 @@ interface PokemonService {
     ): Response<NamedApiResourceList>
 
     @GET("pokemon/{id}/")
-    suspend fun getPokemonInfo(@Path("id") id: String): Response<Pokemon>
+    suspend fun getPokemonInfo(@Path("id") id: String): Response<PokemonDto>
 }

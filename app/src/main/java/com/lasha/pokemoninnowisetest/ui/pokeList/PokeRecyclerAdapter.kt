@@ -1,15 +1,20 @@
 package com.lasha.pokemoninnowisetest.ui.pokeList
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.pokemoninnowisetest.R
+import com.lasha.pokemoninnowisetest.data.entities.NamedApiResource
+import com.lasha.pokemoninnowisetest.data.entities.Pokemon
 import kotlinx.android.synthetic.main.view_poke_recycler.view.*
 
 class PokeRecyclerAdapter: RecyclerView.Adapter<PokeRecyclerAdapter.ViewHolder>() {
 
-    private var pokemonList = ArrayList<String>()
+    private var pokemonList = ArrayList<Pokemon>()
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -19,7 +24,7 @@ class PokeRecyclerAdapter: RecyclerView.Adapter<PokeRecyclerAdapter.ViewHolder>(
         return ViewHolder(view)
     }
 
-    fun updateRecycler(newInfo: String){
+    fun updateRecycler(newInfo: Pokemon){
         pokemonList.add(newInfo)
         notifyDataSetChanged()
     }
@@ -28,7 +33,7 @@ class PokeRecyclerAdapter: RecyclerView.Adapter<PokeRecyclerAdapter.ViewHolder>(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = pokemonList[position]
         holder.itemView.apply {
-            pokemonNameTv.text = items
+            pokemonNameTv.text = items.name
             setOnClickListener {
                 onItemClickListener?.let {
                     it(items)
@@ -39,9 +44,9 @@ class PokeRecyclerAdapter: RecyclerView.Adapter<PokeRecyclerAdapter.ViewHolder>(
 
     override fun getItemCount(): Int =  pokemonList.size
 
-    private var onItemClickListener: ((String) -> Unit)? = null
+    private var onItemClickListener: ((Pokemon) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (String) -> Unit) {
+    fun setOnItemClickListener(listener: (Pokemon) -> Unit) {
         onItemClickListener = listener
     }
 

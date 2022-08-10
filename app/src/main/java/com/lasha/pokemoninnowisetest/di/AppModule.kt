@@ -13,6 +13,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -39,12 +41,20 @@ object AppModule {
         return pokemonDatabase.pokemonDao()
     }
 
+
+
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
-        .baseUrl("https://pokeapi.co/api/v2/")
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .build()
+    fun provideRetrofit(gson: Gson): Retrofit {
+        val okHttpClient by lazy {
+            OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor()).build()
+        }
+        return Retrofit.Builder()
+            .baseUrl("https://pokeapi.co/api/v2/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(okHttpClient)
+            .build()
+    }
 
     @Provides
     @Singleton

@@ -3,8 +3,7 @@ package com.lasha.pokemoninnowisetest.data.entities
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-
-data class Pokemon(
+data class PokemonDto(
     @PrimaryKey
     val id: Int,
     val name: String,

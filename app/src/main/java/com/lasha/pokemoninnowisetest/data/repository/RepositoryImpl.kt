@@ -1,7 +1,8 @@
 package com.lasha.pokemoninnowisetest.data.repository
 
 import android.util.Log
-import com.lasha.pokemoninnowisetest.data.entities.DbEntity
+import com.lasha.pokemoninnowisetest.data.entities.Pokemon
+import com.lasha.pokemoninnowisetest.data.paging.PokemonListDataSource
 import com.lasha.pokemoninnowisetest.domain.db.PokemonDao
 import com.lasha.pokemoninnowisetest.data.remote.PokemonRemoteDataSource
 import com.lasha.pokemoninnowisetest.domain.repository.Repository
@@ -18,13 +19,13 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
     override fun getCharacter(id: String)= performGetOperation(
         databaseQuery = { localDataSource.getCharacter(id) },
         networkCall = { withContext(Dispatchers.IO){remoteDataSource.getCharacter(id)} },
-        saveCallResult = { withContext(Dispatchers.IO){localDataSource.insert(DbEntity(it.id, it.name, it.weight, it.height, it.types[0].type.name, it.sprites.frontDefault))}
-        Log.i("eee", it.id.toString() + it.name + it.weight + it.height + it.sprites.toString())}
+        saveCallResult = { withContext(Dispatchers.IO){localDataSource.insert(Pokemon(it.id, it.name, it.weight, it.height, it.types[0].type.name, it.sprites.frontDefault))}
+        Log.i("eee", it.id.toString() + it.name + it.weight + it.height)}
     )
 
-    override fun getCharacters() = performGetOperation(
+    override fun getCharacters(offset: Int, limit: Int) = performGetOperation(
         databaseQuery = { localDataSource.getAllCharacters() },
-        networkCall = { withContext(Dispatchers.IO){remoteDataSource.getCharacters()} },
+        networkCall = { withContext(Dispatchers.IO){remoteDataSource.getCharacters(offset, limit)} },
         saveCallResult = {
             withContext(Dispatchers.IO) {
                 for (element in it.results) {
@@ -33,7 +34,7 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
                         "/-?[0-9]+/$".toRegex()
                             .find(element.url)!!.value.filter { item -> item.isDigit() || item == '-' } + element.name)
                     localDataSource.insert(
-                        DbEntity(
+                        Pokemon(
                             "/-?[0-9]+/$".toRegex()
                                 .find(element.url)!!.value.filter { item -> item.isDigit() || item == '-' }
                                 .toInt(),
