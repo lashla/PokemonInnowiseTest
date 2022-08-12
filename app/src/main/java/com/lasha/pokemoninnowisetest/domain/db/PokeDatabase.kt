@@ -2,7 +2,6 @@ package com.lasha.pokemoninnowisetest.domain.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.lasha.pokemoninnowisetest.data.entities.NamedApiResource
 import com.lasha.pokemoninnowisetest.data.entities.Pokemon
 
 @Database(entities = [Pokemon::class], version = 2, exportSchema = false)

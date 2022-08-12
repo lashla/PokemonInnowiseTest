@@ -2,7 +2,6 @@ package com.lasha.pokemoninnowisetest.data.repository
 
 import android.util.Log
 import com.lasha.pokemoninnowisetest.data.entities.Pokemon
-import com.lasha.pokemoninnowisetest.data.paging.PokemonListDataSource
 import com.lasha.pokemoninnowisetest.domain.db.PokemonDao
 import com.lasha.pokemoninnowisetest.data.remote.PokemonRemoteDataSource
 import com.lasha.pokemoninnowisetest.domain.repository.Repository

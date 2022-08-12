@@ -1,7 +1,6 @@
 package com.lasha.pokemoninnowisetest.ui.pokeList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,7 +21,6 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
     private lateinit var viewModel: PokeListViewModel
     private var adapter = PokeRecyclerAdapter()
     private var offset = 0
-    private var limit = 20
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

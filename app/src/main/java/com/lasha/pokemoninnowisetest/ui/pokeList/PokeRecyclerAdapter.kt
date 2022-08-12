@@ -1,14 +1,10 @@
 package com.lasha.pokemoninnowisetest.ui.pokeList
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.pokemoninnowisetest.R
-import com.lasha.pokemoninnowisetest.data.entities.NamedApiResource
 import com.lasha.pokemoninnowisetest.data.entities.Pokemon
 import kotlinx.android.synthetic.main.view_poke_recycler.view.*
 
