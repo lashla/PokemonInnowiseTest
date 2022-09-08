@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.lasha.pokemoninnowisetest.R
@@ -16,30 +17,24 @@ import kotlinx.android.synthetic.main.fragment_poke_details.*
 @AndroidEntryPoint
 class PokeDetailsFragment: Fragment(R.layout.fragment_poke_details) {
 
-    private lateinit var viewModel: PokeDetailViewModel
     private val navArgs by navArgs<PokeDetailsFragmentArgs>()
-
+    private val viewModel: PokeDetailViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
     }
 
     private fun initViewModel(){
-        viewModel = ViewModelProvider(this)[PokeDetailViewModel::class.java]
-        viewModel.start(navArgs.id)
+        viewModel.getCharacter(navArgs.id)
         viewModel.character.observe(viewLifecycleOwner){
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     setupCharacterView(it.data!!)
                     progressBarDetails.visibility = View.GONE
                 }
+                Resource.Status.ERROR -> Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                Resource.Status.LOADING -> progressBarDetails.visibility = View.VISIBLE
 
-                Resource.Status.ERROR ->
-                    Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
-
-                Resource.Status.LOADING -> {
-                    progressBarDetails.visibility = View.VISIBLE
-                }
             }
         }
     }

@@ -1,24 +1,28 @@
 package com.lasha.pokemoninnowisetest.ui.pokeList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.pokemoninnowisetest.R
+import com.lasha.pokemoninnowisetest.ui.pokeDetails.PokeDetailViewModel
 import com.lasha.pokemoninnowisetest.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_poke_list.*
 
+private const val limit = 20
 
 @AndroidEntryPoint
 class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
 
-    private lateinit var viewModel: PokeListViewModel
+    private val viewModel: PokeListViewModel by viewModels()
     private var adapter = PokeRecyclerAdapter()
     private var offset = 0
 
@@ -29,18 +33,16 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
         setupOnClickAndScrollListeners()
     }
 
-
     private fun initRecyclerView(){
         pokemonRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL
             , false)
         pokemonRecycler.itemAnimator = DefaultItemAnimator()
-        pokemonRecycler.setHasFixedSize(true)
         pokemonRecycler.adapter = adapter
     }
 
     private fun initViewModel(){
-        viewModel = ViewModelProvider(this)[PokeListViewModel::class.java]
-        viewModel.characters.observe(viewLifecycleOwner) {
+        viewModel.retrieveData(0, limit)
+        viewModel.charactersData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     progressBar.visibility = View.GONE
@@ -67,6 +69,7 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                     offset += 20
+                    viewModel.retrieveData(offset, limit)
                 }
             }
         })

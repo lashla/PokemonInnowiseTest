@@ -5,8 +5,10 @@
       <map>
         <entry key="app/src/main/res/font/pokemon_hollow.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/fragment_poke_details.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/fragment_poke_list.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/freagment_poke_details.xml" value="0.359375" />
+        <entry key="app/src/main/res/layout/view_poke_recycler.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/view_poke_recylcer.xml" value="0.359375" />
       </map>
     </option>

@@ -22,9 +22,8 @@ class PokeRecyclerAdapter: RecyclerView.Adapter<PokeRecyclerAdapter.ViewHolder>(
 
     fun updateRecycler(newInfo: Pokemon){
         pokemonList.add(newInfo)
-        notifyDataSetChanged()
+        notifyItemInserted(pokemonList.lastIndex)
     }
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = pokemonList[position]
@@ -45,7 +44,4 @@ class PokeRecyclerAdapter: RecyclerView.Adapter<PokeRecyclerAdapter.ViewHolder>(
     fun setOnItemClickListener(listener: (Pokemon) -> Unit) {
         onItemClickListener = listener
     }
-
-
-
 }

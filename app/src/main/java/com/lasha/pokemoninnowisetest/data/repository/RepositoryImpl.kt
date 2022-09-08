@@ -16,14 +16,17 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
                                          private val localDataSource: PokemonDao): Repository {
 
     override fun getCharacter(id: String)= performGetOperation(
-        databaseQuery = { localDataSource.getCharacter(id) },
+        databaseQuery = { withContext(Dispatchers.IO){localDataSource.getCharacter(id)} },
         networkCall = { withContext(Dispatchers.IO){remoteDataSource.getCharacter(id)} },
         saveCallResult = { withContext(Dispatchers.IO){localDataSource.insert(Pokemon(it.id, it.name, it.weight, it.height, it.types[0].type.name, it.sprites.frontDefault))}
-        Log.i("eee", it.id.toString() + it.name + it.weight + it.height)}
+            Log.i("eee", it.id.toString() + it.name + it.weight + it.height + it.sprites.toString())}
     )
 
+
+
+
     override fun getCharacters(offset: Int, limit: Int) = performGetOperation(
-        databaseQuery = { localDataSource.getAllCharacters() },
+        databaseQuery = { withContext(Dispatchers.IO){localDataSource.getAllCharacters() }},
         networkCall = { withContext(Dispatchers.IO){remoteDataSource.getCharacters(offset, limit)} },
         saveCallResult = {
             withContext(Dispatchers.IO) {
@@ -44,7 +47,4 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
             }
         }
     )
-
-
-
 }

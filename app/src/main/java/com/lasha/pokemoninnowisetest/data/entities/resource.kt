@@ -1,5 +1,7 @@
 package com.lasha.pokemoninnowisetest.data.entities
 
+import com.google.gson.annotations.SerializedName
+
 
 private fun urlToId(url: String): Int {
     return "/-?[0-9]+/$".toRegex().find(url)!!.value.filter { it.isDigit() || it == '-' }.toInt()
@@ -19,7 +21,9 @@ interface ResourceSummary {
 }
 
 data class NamedApiResource(
+    @SerializedName("name")
     val name: String,
+    @SerializedName("url")
     val url: String
 ) : ResourceSummary {
     constructor(name: String, category: String, id: Int) : this(name, resourceUrl(id, category))
@@ -36,8 +40,12 @@ interface ResourceSummaryList<out T : ResourceSummary> {
 }
 
 data class NamedApiResourceList(
+    @SerializedName("count")
     override val count: Int,
+    @SerializedName("next")
     override val next: String?,
+    @SerializedName("previous")
     override val previous: String?,
+    @SerializedName("results")
     override val results: List<NamedApiResource>
 ) : ResourceSummaryList<NamedApiResource>

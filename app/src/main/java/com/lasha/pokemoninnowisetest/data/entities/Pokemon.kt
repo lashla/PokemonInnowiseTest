@@ -11,5 +11,5 @@ data class Pokemon(
     @ColumnInfo(name = "weight") var weight: Int?,
     @ColumnInfo(name = "height") var height: Int?,
     @ColumnInfo(name = "type") var type: String?,
-    @ColumnInfo(name = "image") var image: String?
+    @ColumnInfo(name = "image") var image: String?,
 )
