@@ -22,9 +22,9 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
         var returnData = Pokemon(null, name, null, null, null, null)
         if (CheckInternetConnection.connectivityStatus(context)) {
             val character = remoteDataSource.getCharacter(name)
-                if(character.status == Resource.Status.SUCCESS){
-                    if (character.data != null){
-                        Log.i("Character id", character.data.id.toString())
+            if(character.status == Resource.Status.SUCCESS){
+                if (character.data != null){
+                    Log.i("Character id", character.data.id.toString())
                     localDataSource.insert(
                         Pokemon(
                             character.data.id,
@@ -35,19 +35,17 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
                             character.data.sprites.frontDefault
                         )
                     )
-                        returnData = Pokemon(
-                            character.data.id,
-                            character.data.name,
-                            character.data.weight,
-                            character.data.height,
-                            character.data.types[0].type.name,
-                            character.data.sprites.frontDefault
+                    returnData = Pokemon(
+                        character.data.id,
+                        character.data.name,
+                        character.data.weight,
+                        character.data.height,
+                        character.data.types[0].type.name,
+                        character.data.sprites.frontDefault
                         )
-                        Log.i("FromRemote", "returns")
-
-                    }
+                    Log.i("FromRemote", "returns")
                 }
-
+            }
         } else {
             returnData = localDataSource.getCharacter(name)
             Log.i("Character id", returnData.id.toString())
@@ -68,8 +66,8 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
                         for (elements in character.data.results){
                             returnData.add(Pokemon(
                                 "/-?[0-9]+/$".toRegex()
-                                .find(elements.url)!!.value.filter { item -> item.isDigit() || item == '-' }
-                                .toInt(),
+                                    .find(elements.url)?.value?.filter { item -> item.isDigit() || item == '-' }
+                                    ?.toInt(),
                                 elements.name,
                                 null, null, null, null
                             ))

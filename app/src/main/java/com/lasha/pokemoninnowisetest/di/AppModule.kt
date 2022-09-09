@@ -46,8 +46,6 @@ object AppModule {
         return pokemonDatabase.pokemonDao()
     }
 
-
-
     @Provides
     @Singleton
     fun provideRetrofit(gson: Gson): Retrofit {

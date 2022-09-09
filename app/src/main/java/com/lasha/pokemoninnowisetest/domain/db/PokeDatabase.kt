@@ -12,5 +12,4 @@ abstract class PokeDatabase: RoomDatabase()  {
     companion object {
         const val databaseName = "PokemonDB"
     }
-
 }

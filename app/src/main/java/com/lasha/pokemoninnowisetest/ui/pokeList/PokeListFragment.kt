@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.pokemoninnowisetest.R
+import com.lasha.pokemoninnowisetest.data.entities.Pokemon
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_poke_list.*
 
@@ -17,8 +18,9 @@ private const val limit = 20
 @AndroidEntryPoint
 class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
 
+    var data = ArrayList<Pokemon>()
     private val viewModel: PokeListViewModel by viewModels()
-    private var adapter = PokeRecyclerAdapter()
+    private var adapter = PokeRecyclerAdapter(data)
     private var offset = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,8 +30,9 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
     }
 
     private fun initRecyclerView(){
-        pokemonRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL
-            , false)
+        pokemonRecycler.layoutManager = LinearLayoutManager(context,
+            LinearLayoutManager.VERTICAL,
+            false)
         pokemonRecycler.itemAnimator = DefaultItemAnimator()
         pokemonRecycler.adapter = adapter
     }
@@ -38,18 +41,21 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
         viewModel.charactersData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()){
                 for (element in it){
-                    adapter.updateRecycler(element)
+                    data.add(element)
+                    element.id?.let { id -> adapter.notifyItemInserted(id) }
                 }
             }
         }
-
     }
+
     private fun setupOnClickAndScrollListeners(){
         adapter.setOnItemClickListener {
-            if (!it.name.isNullOrEmpty()){
-                val action = PokeListFragmentDirections.actionPokeListFragmentToPokeDetailsFragment(
-                    it.name!!
+            val action = it.name?.let { item ->
+                PokeListFragmentDirections.actionPokeListFragmentToPokeDetailsFragment(
+                    item
                 )
+            }
+            if (action != null) {
                 findNavController().navigate(action)
             }
         }
