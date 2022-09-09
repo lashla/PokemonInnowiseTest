@@ -16,5 +16,5 @@ interface PokemonService {
     ): Response<NamedApiResourceList>
 
     @GET("pokemon/{id}/")
-    suspend fun getPokemonInfo(@Path("id") id: String): Response<PokemonDto>
+    suspend fun getPokemonInfo(@Path("id") name: String): Response<PokemonDto>
 }

@@ -22,7 +22,7 @@ class PokeDetailsFragment: Fragment(R.layout.fragment_poke_details) {
     }
 
     private fun initViewModel(){
-        viewModel.getPokemon(navArgs.id)
+        viewModel.getPokemon(navArgs.name)
         viewModel.character.observe(viewLifecycleOwner){
             if (it != null){
                 setupCharacterView(it)

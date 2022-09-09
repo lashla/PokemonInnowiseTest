@@ -13,6 +13,10 @@ class PokeListViewModel @Inject constructor(private val repositoryImpl: Reposito
 
     val charactersData = MutableLiveData<List<Pokemon>>()
 
+    init {
+        retrieveData(offset = 0, 20)
+    }
+
     fun retrieveData(offset:Int, limit:Int) {
         viewModelScope.launch(Dispatchers.Main) {
             charactersData.postValue(repositoryImpl.getCharacters(offset,limit))

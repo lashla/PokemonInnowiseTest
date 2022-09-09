@@ -14,7 +14,7 @@
             android:id="@+id/action_pokeDetailsFragment_to_pokeListFragment"
             app:destination="@id/pokeListFragment" />
         <argument
-            android:name="id"
+            android:name="name"
             app:argType="string" />
     </fragment>
     <fragment

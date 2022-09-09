@@ -6,11 +6,11 @@ import com.lasha.pokemoninnowisetest.data.entities.Pokemon
 @Dao
 interface PokemonDao {
 
-    @Query("SELECT * FROM pokemon")
-    suspend fun getAllCharacters(): List<Pokemon>
+    @Query("SELECT * FROM pokemon LIMIT :limit OFFSET :offset ")
+    suspend fun getAllCharacters(offset: Int, limit: Int): List<Pokemon>
 
-    @Query("SELECT * FROM pokemon WHERE name = :id")
-    suspend fun getCharacter(id: String): Pokemon
+    @Query("SELECT * FROM pokemon WHERE name = :name")
+    suspend fun getCharacter(name: String): Pokemon
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(characters: List<Pokemon>)

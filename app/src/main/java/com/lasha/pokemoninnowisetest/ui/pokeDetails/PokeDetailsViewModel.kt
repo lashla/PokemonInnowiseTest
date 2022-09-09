@@ -16,9 +16,9 @@ class PokeDetailViewModel @Inject constructor(private val repositoryImpl: Reposi
 
     val character = MutableLiveData<Pokemon>()
 
-    fun getPokemon(id: String){
+    fun getPokemon(name: String){
         viewModelScope.launch {
-            character.postValue(repositoryImpl.getCharacter(id))
+            character.postValue(repositoryImpl.getCharacter(name))
         }
     }
 }

@@ -8,5 +8,5 @@ import javax.inject.Singleton
 @Singleton
 interface Repository {
     suspend fun getCharacters(offset: Int, limit: Int): List<Pokemon>
-    suspend fun getCharacter(id: String): Pokemon
+    suspend fun getCharacter(name: String): Pokemon
 }

@@ -22,7 +22,6 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
     private var offset = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initViewModel()
         initRecyclerView()
         setupOnClickAndScrollListeners()
@@ -36,7 +35,6 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
     }
 
     private fun initViewModel(){
-        viewModel.retrieveData(0, limit)
         viewModel.charactersData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()){
                 for (element in it){

@@ -18,12 +18,13 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
                                          private val localDataSource: PokemonDao,
                                          private val context: Context): Repository {
 
-    override suspend fun getCharacter(id: String): Pokemon {
-        var returnData = Pokemon(id.toInt(), null, null, null, null, null)
+    override suspend fun getCharacter(name: String): Pokemon {
+        var returnData = Pokemon(null, name, null, null, null, null)
         if (CheckInternetConnection.connectivityStatus(context)) {
-            val character = remoteDataSource.getCharacter(id)
+            val character = remoteDataSource.getCharacter(name)
                 if(character.status == Resource.Status.SUCCESS){
                     if (character.data != null){
+                        Log.i("Character id", character.data.id.toString())
                     localDataSource.insert(
                         Pokemon(
                             character.data.id,
@@ -48,7 +49,8 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
                 }
 
         } else {
-            returnData = localDataSource.getCharacter(id)
+            returnData = localDataSource.getCharacter(name)
+            Log.i("Character id", returnData.id.toString())
             Log.i("FromLocal", "returns")
             localDataSource.insert(returnData)
         }
@@ -77,7 +79,7 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
                 }
             }
         } else {
-            returnData = withContext(Dispatchers.IO) { localDataSource.getAllCharacters() } as ArrayList<Pokemon>
+            returnData = withContext(Dispatchers.IO) { localDataSource.getAllCharacters(offset, limit) } as ArrayList<Pokemon>
             localDataSource.insertAll(returnData)
             Log.i("FromLocal", "returns")
         }
