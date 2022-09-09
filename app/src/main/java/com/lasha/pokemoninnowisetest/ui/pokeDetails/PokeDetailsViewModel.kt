@@ -14,16 +14,11 @@ import javax.inject.Inject
 @HiltViewModel
 class PokeDetailViewModel @Inject constructor(private val repositoryImpl: RepositoryImpl): ViewModel() {
 
-    private val _id = MutableLiveData<String>()
+    val character = MutableLiveData<Pokemon>()
 
-    private val _character = _id.switchMap { id ->
-        repositoryImpl.getCharacter(id)
-    }
-    val character: LiveData<Resource<Pokemon>> = _character
-
-
-    fun getCharacter(id: String) {
-        Log.i("id", id)
-        _id.value = id
+    fun getPokemon(id: String){
+        viewModelScope.launch {
+            character.postValue(repositoryImpl.getCharacter(id))
+        }
     }
 }

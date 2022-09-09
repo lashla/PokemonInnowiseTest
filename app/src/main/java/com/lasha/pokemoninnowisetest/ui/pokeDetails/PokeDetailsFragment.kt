@@ -2,14 +2,11 @@ package com.lasha.pokemoninnowisetest.ui.pokeDetails
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.lasha.pokemoninnowisetest.R
 import com.lasha.pokemoninnowisetest.data.entities.Pokemon
-import com.lasha.pokemoninnowisetest.utils.Resource
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_poke_details.*
@@ -25,16 +22,10 @@ class PokeDetailsFragment: Fragment(R.layout.fragment_poke_details) {
     }
 
     private fun initViewModel(){
-        viewModel.getCharacter(navArgs.id)
+        viewModel.getPokemon(navArgs.id)
         viewModel.character.observe(viewLifecycleOwner){
-            when (it.status) {
-                Resource.Status.SUCCESS -> {
-                    setupCharacterView(it.data!!)
-                    progressBarDetails.visibility = View.GONE
-                }
-                Resource.Status.ERROR -> Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
-                Resource.Status.LOADING -> progressBarDetails.visibility = View.VISIBLE
-
+            if (it != null){
+                setupCharacterView(it)
             }
         }
     }

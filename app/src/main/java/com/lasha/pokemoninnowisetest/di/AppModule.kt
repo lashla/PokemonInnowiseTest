@@ -1,5 +1,6 @@
 package com.lasha.pokemoninnowisetest.domain.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
@@ -34,6 +35,10 @@ object AppModule {
             .fallbackToDestructiveMigration()
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun provideContext(application: Application): Context = application.applicationContext
 
     @Provides
     @Singleton

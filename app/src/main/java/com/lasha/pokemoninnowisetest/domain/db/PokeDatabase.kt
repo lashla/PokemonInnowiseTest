@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.lasha.pokemoninnowisetest.data.entities.Pokemon
 
-@Database(entities = [Pokemon::class], version = 2, exportSchema = false)
+@Database(entities = [Pokemon::class], version = 3, exportSchema = false)
 abstract class PokeDatabase: RoomDatabase()  {
 
     abstract fun pokemonDao(): PokemonDao

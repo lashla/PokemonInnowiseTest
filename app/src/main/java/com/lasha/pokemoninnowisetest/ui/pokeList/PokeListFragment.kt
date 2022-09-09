@@ -1,19 +1,14 @@
 package com.lasha.pokemoninnowisetest.ui.pokeList
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lasha.pokemoninnowisetest.R
-import com.lasha.pokemoninnowisetest.ui.pokeDetails.PokeDetailViewModel
-import com.lasha.pokemoninnowisetest.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_poke_list.*
 
@@ -43,26 +38,22 @@ class PokeListFragment: Fragment(R.layout.fragment_poke_list) {
     private fun initViewModel(){
         viewModel.retrieveData(0, limit)
         viewModel.charactersData.observe(viewLifecycleOwner) {
-            when (it.status) {
-                Resource.Status.SUCCESS -> {
-                    progressBar.visibility = View.GONE
-                    for (element in it.data!!){
-                        adapter.updateRecycler(element)
-                    }
+            if (it.isNotEmpty()){
+                for (element in it){
+                    adapter.updateRecycler(element)
                 }
-                Resource.Status.ERROR ->
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-
-                Resource.Status.LOADING ->
-                    progressBar.visibility = View.VISIBLE
             }
         }
 
     }
     private fun setupOnClickAndScrollListeners(){
         adapter.setOnItemClickListener {
-            val action = PokeListFragmentDirections.actionPokeListFragmentToPokeDetailsFragment(it.name)
-            findNavController().navigate(action)
+            if (!it.name.isNullOrEmpty()){
+                val action = PokeListFragmentDirections.actionPokeListFragmentToPokeDetailsFragment(
+                    it.name!!
+                )
+                findNavController().navigate(action)
+            }
         }
         pokemonRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

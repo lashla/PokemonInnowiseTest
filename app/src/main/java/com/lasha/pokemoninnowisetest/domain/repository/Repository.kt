@@ -7,6 +7,6 @@ import javax.inject.Singleton
 
 @Singleton
 interface Repository {
-    fun getCharacters(offset: Int, limit: Int): LiveData<Resource<List<Pokemon>>>
-    fun getCharacter(id: String): LiveData<Resource<Pokemon>>
+    suspend fun getCharacters(offset: Int, limit: Int): List<Pokemon>
+    suspend fun getCharacter(id: String): Pokemon
 }
