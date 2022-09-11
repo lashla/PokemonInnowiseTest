@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.lasha.pokemoninnowisetest.domain.db.PokeDatabase
-import com.lasha.pokemoninnowisetest.domain.db.PokemonDao
+import com.lasha.pokemoninnowisetest.data.local.PokeDatabase
+import com.lasha.pokemoninnowisetest.data.local.PokemonDao
 import com.lasha.pokemoninnowisetest.data.remote.PokemonRemoteDataSource
 import com.lasha.pokemoninnowisetest.data.remote.PokemonService
 import dagger.Module
@@ -26,7 +26,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): PokeDatabase{
+    fun provideDatabase(@ApplicationContext context: Context): PokeDatabase {
         return Room.databaseBuilder(
             context,
             PokeDatabase::class.java,
@@ -42,7 +42,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDao(pokemonDatabase: PokeDatabase): PokemonDao{
+    fun provideDao(pokemonDatabase: PokeDatabase): PokemonDao {
         return pokemonDatabase.pokemonDao()
     }
 

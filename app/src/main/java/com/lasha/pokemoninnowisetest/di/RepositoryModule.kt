@@ -2,7 +2,7 @@ package com.lasha.pokemoninnowisetest.domain.di
 
 import android.content.Context
 import com.lasha.pokemoninnowisetest.data.repository.RepositoryImpl
-import com.lasha.pokemoninnowisetest.domain.db.PokemonDao
+import com.lasha.pokemoninnowisetest.data.local.PokemonDao
 import com.lasha.pokemoninnowisetest.data.remote.PokemonRemoteDataSource
 import com.lasha.pokemoninnowisetest.domain.repository.Repository
 import dagger.Module

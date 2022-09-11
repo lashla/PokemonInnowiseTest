@@ -2,14 +2,14 @@ package com.lasha.pokemoninnowisetest.ui.pokeList
 
 import androidx.lifecycle.*
 import com.lasha.pokemoninnowisetest.data.entities.Pokemon
-import com.lasha.pokemoninnowisetest.data.repository.RepositoryImpl
+import com.lasha.pokemoninnowisetest.domain.useCases.GetPokemonListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PokeListViewModel @Inject constructor(private val repositoryImpl: RepositoryImpl): ViewModel() {
+class PokeListViewModel @Inject constructor(private val getPokemonListUseCase: GetPokemonListUseCase): ViewModel() {
 
     val charactersData = MutableLiveData<List<Pokemon>>()
 
@@ -19,7 +19,7 @@ class PokeListViewModel @Inject constructor(private val repositoryImpl: Reposito
 
     fun retrieveData(offset:Int, limit:Int) {
         viewModelScope.launch(Dispatchers.Main) {
-            charactersData.postValue(repositoryImpl.getCharacters(offset,limit))
+            charactersData.postValue(getPokemonListUseCase.invoke(offset, limit))
         }
     }
 }

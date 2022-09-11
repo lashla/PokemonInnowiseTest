@@ -1,4 +1,4 @@
-package com.lasha.pokemoninnowisetest.domain.db
+package com.lasha.pokemoninnowisetest.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

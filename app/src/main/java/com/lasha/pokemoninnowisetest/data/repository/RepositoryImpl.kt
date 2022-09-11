@@ -3,7 +3,7 @@ package com.lasha.pokemoninnowisetest.data.repository
 import android.content.Context
 import android.util.Log
 import com.lasha.pokemoninnowisetest.data.entities.Pokemon
-import com.lasha.pokemoninnowisetest.domain.db.PokemonDao
+import com.lasha.pokemoninnowisetest.data.local.PokemonDao
 import com.lasha.pokemoninnowisetest.data.remote.PokemonRemoteDataSource
 import com.lasha.pokemoninnowisetest.domain.repository.Repository
 import com.lasha.pokemoninnowisetest.utils.CheckInternetConnection
@@ -59,11 +59,11 @@ class RepositoryImpl @Inject constructor(private val remoteDataSource: PokemonRe
         var returnData = ArrayList<Pokemon>()
         if (CheckInternetConnection.connectivityStatus(context)) {
             Log.i("FromRemote", "returns")
-            val character = withContext(Dispatchers.IO) { remoteDataSource.getCharacters(offset, limit) }
+            val response = withContext(Dispatchers.IO) { remoteDataSource.getCharacters(offset, limit) }
             withContext(Dispatchers.IO) {
-                if(character.status == Resource.Status.SUCCESS){
-                    if (character.data != null){
-                        for (elements in character.data.results){
+                if(response.status == Resource.Status.SUCCESS){
+                    if (response.data != null){
+                        for (elements in response.data.results){
                             returnData.add(Pokemon(
                                 "/-?[0-9]+/$".toRegex()
                                     .find(elements.url)?.value?.filter { item -> item.isDigit() || item == '-' }
