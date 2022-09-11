@@ -1,4 +1,4 @@
-package com.lasha.pokemoninnowisetest.data.entities
+package com.lasha.pokemoninnowisetest.domain.model
 
 import com.google.gson.annotations.SerializedName
 
